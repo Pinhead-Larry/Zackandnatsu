@@ -25,7 +25,20 @@
         }
         .shape {
             position: absolute;
+        }
+        .circle {
             border-radius: 50%;
+        }
+        .square {
+            /* No additional styles needed for squares */
+        }
+        .triangle {
+            width: 0;
+            height: 0;
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-bottom: 50px solid;
+            background-color: transparent; /* Required for triangles */
         }
     </style>
 </head>
@@ -38,17 +51,26 @@
         const numShapes = 10;
 
         class Shape {
-            constructor() {
-                this.size = Math.random() * 50 + 20; // size between 20 and 70
+            constructor(type) {
+                this.type = type;
+                this.size = Math.random() * 50 + 20; // Size between 20 and 70
                 this.element = document.createElement('div');
-                this.element.className = 'shape';
+                this.element.className = `shape ${type}`;
                 this.element.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                this.element.style.width = `${this.size}px`;
-                this.element.style.height = `${this.size}px`;
                 this.x = Math.random() * (window.innerWidth - this.size);
                 this.y = Math.random() * (window.innerHeight - this.size);
-                this.vx = (Math.random() - 0.5) * 4; // velocity x
-                this.vy = (Math.random() - 0.5) * 4; // velocity y
+                this.vx = (Math.random() - 0.5) * 4; // Velocity x
+                this.vy = (Math.random() - 0.5) * 4; // Velocity y
+
+                // Set size based on type
+                if (type === 'circle' || type === 'square') {
+                    this.element.style.width = `${this.size}px`;
+                    this.element.style.height = `${this.size}px`;
+                } else if (type === 'triangle') {
+                    this.size = 50; // Fixed height for triangles
+                    this.element.style.borderBottomColor = this.element.style.backgroundColor; // Set color
+                }
+
                 document.body.appendChild(this.element);
                 this.updatePosition();
             }
@@ -84,6 +106,4 @@
                     const totalVY = this.vy + other.vy;
 
                     this.vx = totalVX * Math.cos(angle);
-                    this.vy = totalVY * Math.sin(angle);
-                    other.vx = totalVX * Math.cos(angle + Math.PI);
-                   
+                    this.vy = totalVY * 
