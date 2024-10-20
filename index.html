@@ -45,10 +45,10 @@
                 this.element.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
                 this.element.style.width = `${this.size}px`;
                 this.element.style.height = `${this.size}px`;
-                this.x = Math.random() * window.innerWidth;
-                this.y = Math.random() * window.innerHeight;
-                this.vx = Math.random() * 4 + 1; // velocity x
-                this.vy = Math.random() * 4 + 1; // velocity y
+                this.x = Math.random() * (window.innerWidth - this.size);
+                this.y = Math.random() * (window.innerHeight - this.size);
+                this.vx = (Math.random() - 0.5) * 4; // velocity x
+                this.vy = (Math.random() - 0.5) * 4; // velocity y
                 document.body.appendChild(this.element);
                 this.updatePosition();
             }
@@ -76,32 +76,14 @@
                 const dx = this.x - other.x;
                 const dy = this.y - other.y;
                 const distance = Math.sqrt(dx * dx + dy * dy);
+
                 if (distance < (this.size + other.size) / 2) {
-                    this.vx *= -1;
-                    this.vy *= -1;
-                    other.vx *= -1;
-                    other.vy *= -1;
-                }
-            }
-        }
+                    // Calculate angle of collision
+                    const angle = Math.atan2(dy, dx);
+                    const totalVX = this.vx + other.vx;
+                    const totalVY = this.vy + other.vy;
 
-        for (let i = 0; i < numShapes; i++) {
-            shapes.push(new Shape());
-        }
-
-        function animate() {
-            for (let shape of shapes) {
-                shape.move();
-                for (let other of shapes) {
-                    if (shape !== other) {
-                        shape.checkCollision(other);
-                    }
-                }
-            }
-            requestAnimationFrame(animate);
-        }
-
-        animate();
-    </script>
-</body>
-</html>
+                    this.vx = totalVX * Math.cos(angle);
+                    this.vy = totalVY * Math.sin(angle);
+                    other.vx = totalVX * Math.cos(angle + Math.PI);
+                   
