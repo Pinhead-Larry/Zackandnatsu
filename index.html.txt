@@ -1,0 +1,7 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Zackary and Natsumi's website</h1>
+<p>Stuff coming soon</p>
+</body>
+</html>
