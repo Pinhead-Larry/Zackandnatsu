@@ -3,107 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fun Shapes</title>
+    <title>Zackary and Natsumi's Website</title>
     <style>
         body {
             margin: 0;
             overflow: hidden;
-            background-color: #f0f0f0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f8ff;
             position: relative;
         }
-        #welcome {
-            position: absolute;
+        h1, h2 {
             text-align: center;
-            font-size: 24px;
-            color: #333;
-            z-index: 10;
+            opacity: 0; /* Initially hidden */
+            animation: dropFade 1s forwards; /* Apply animation */
         }
-        .shape {
+        h1 {
+            font-size: 2.5em;
+            animation-delay: 0.5s; /* Delay for h1 */
+        }
+        h2 {
+            font-size: 1.5em; /* Adjust size for mobile */
+            margin-top: 0.5em;
+            animation-delay: 1s; /* Delay for h2 */
+        }
+        .ball {
             position: absolute;
-        }
-        .circle {
             border-radius: 50%;
+            opacity: 0.7;
         }
-        .square {
-            /* No additional styles needed for squares */
-        }
-        .triangle {
-            width: 0;
-            height: 0;
-            border-left: 25px solid transparent;
-            border-right: 25px solid transparent;
-            border-bottom: 50px solid;
-            background-color: transparent; /* Required for triangles */
+        @keyframes dropFade {
+            0% {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
     </style>
 </head>
 <body>
-    <div id="welcome">Welcome to Zackary and Natsumi's Website</div>
+
+    <h1>Welcome to Zackary and Natsumi's website</h1>
+    <h2>ザックと夏海のウェブサイトへようこそ</h2>
 
     <script>
-        const shapes = [];
-        const colors = ['#FF5733', '#33FF57', '#3357FF', '#F3FF33', '#FF33F6'];
-        const numShapes = 10;
+        const colors = ['#FF5733', '#33FF57', '#3357FF', '#F5FF33', '#FF33A1', '#33FFF5'];
+        const numBalls = 50;
 
-        class Shape {
-            constructor(type) {
-                this.type = type;
-                this.size = Math.random() * 50 + 20; // Size between 20 and 70
-                this.element = document.createElement('div');
-                this.element.className = `shape ${type}`;
-                this.element.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                this.x = Math.random() * (window.innerWidth - this.size);
-                this.y = Math.random() * (window.innerHeight - this.size);
-                this.vx = (Math.random() - 0.5) * 4; // Velocity x
-                this.vy = (Math.random() - 0.5) * 4; // Velocity y
+        function createBall() {
+            const ball = document.createElement('div');
+            const size = Math.random() * 30 + 10; // Size between 10px and 40px
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            const leftPosition = Math.random() * (window.innerWidth - size); // Adjust to avoid overflow
 
-                // Set size based on type
-                if (type === 'circle' || type === 'square') {
-                    this.element.style.width = `${this.size}px`;
-                    this.element.style.height = `${this.size}px`;
-                } else if (type === 'triangle') {
-                    this.size = 50; // Fixed height for triangles
-                    this.element.style.borderBottomColor = this.element.style.backgroundColor; // Set color
+            ball.className = 'ball';
+            ball.style.width = `${size}px`;
+            ball.style.height = `${size}px`;
+            ball.style.backgroundColor = color;
+            ball.style.left = `${leftPosition}px`;
+            ball.style.top = `-50px`; // Start above the viewport
+
+            document.body.appendChild(ball);
+
+            // Animate falling
+            let fallingSpeed = Math.random() * 3 + 2; // Speed between 2px and 5px
+            const fallInterval = setInterval(() => {
+                const currentTop = parseFloat(ball.style.top);
+                if (currentTop < window.innerHeight) {
+                    ball.style.top = `${currentTop + fallingSpeed}px`;
+                } else {
+                    clearInterval(fallInterval);
+                    ball.remove(); // Remove ball after it falls out of view
                 }
+            }, 16); // Increased frequency
+        }
 
-                document.body.appendChild(this.element);
-                this.updatePosition();
-            }
+        // Create multiple balls quickly
+        for (let i = 0; i < numBalls; i++) {
+            createBall();
+        }
 
-            updatePosition() {
-                this.element.style.transform = `translate(${this.x}px, ${this.y}px)`;
-            }
+        // Generate more balls every 500 milliseconds
+        setInterval(createBall, 500);
+    </script>
 
-            move() {
-                this.x += this.vx;
-                this.y += this.vy;
-
-                // Bounce off walls
-                if (this.x + this.size > window.innerWidth || this.x < 0) {
-                    this.vx *= -1;
-                }
-                if (this.y + this.size > window.innerHeight || this.y < 0) {
-                    this.vy *= -1;
-                }
-
-                this.updatePosition();
-            }
-
-            checkCollision(other) {
-                const dx = this.x - other.x;
-                const dy = this.y - other.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-
-                if (distance < (this.size + other.size) / 2) {
-                    // Calculate angle of collision
-                    const angle = Math.atan2(dy, dx);
-                    const totalVX = this.vx + other.vx;
-                    const totalVY = this.vy + other.vy;
-
-                    this.vx = totalVX * Math.cos(angle);
-                    this.vy = totalVY * 
+</body>
+</html>
