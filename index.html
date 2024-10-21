@@ -17,7 +17,7 @@
             background-color: #f0f8ff;
             position: relative;
         }
-        h1, h2 {
+        h1, h2, h3 {
             text-align: center;
             opacity: 0; /* Initially hidden */
             animation: dropFade 1s forwards; /* Apply animation */
@@ -30,6 +30,11 @@
             font-size: 1.5em; /* Adjust size for mobile */
             margin-top: 0.5em;
             animation-delay: 1s; /* Delay for h2 */
+        }
+        h3 {
+            font-size: 1.5em;
+            margin-top: 1em;
+            animation-delay: 1.5s;
         }
         .ball {
             position: absolute;
@@ -52,7 +57,7 @@
 
     <h1>Welcome to Zackary and Natsumi's website</h1>
     <h2>ザックと夏海のウェブサイトへようこそ</h2>
-    <h2><a href="index.md" title="Natsumi's Blog">Natsumi's Blog</a></h2>
+    <h3><a href="Natsumi/Blog/index.md" title="Natsumi's Blog">Natsumi's Blog</a></h3>
 
     <script>
         const colors = ['#FF5733', '#33FF57', '#3357FF', '#F5FF33', '#FF33A1', '#33FFF5'];
