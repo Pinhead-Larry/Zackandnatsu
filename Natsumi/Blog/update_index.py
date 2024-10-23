@@ -5,7 +5,7 @@ posts_directory = 'Posts'
 index_file = 'index.html'  # Output file
 recent_posts_count = 5  # Number of recent posts to display
 
-# Get a list of Markdown files in the posts directory
+# Get a list of HTML files in the posts directory
 posts = [f for f in os.listdir(posts_directory) if f.endswith('.html')]
 posts_with_dates = []
 
@@ -65,13 +65,14 @@ for post, _ in sorted_posts[:recent_posts_count]:
     with open(post_path, 'r', encoding='utf-8') as f:
         post_content = f.read()
 
-    # Generate a snippet
+    # Generate a snippet (first 100 characters)
     snippet = post_content[:100] + "..." if len(post_content) > 100 else post_content
 
-    # Format the entry for the index
+    # Format the entry for the index, excluding the .html extension from the title
+    title_without_extension = post[:-5]  # Remove ".html"
     index_content += f"""\
     <div class="post">
-        <h2><a href="{posts_directory}/{post}">{post[:-3]}</a></h2>
+        <h2><a href="{posts_directory}/{post}">{title_without_extension}</a></h2>
         <p>{snippet}</p>
     </div>
 """
