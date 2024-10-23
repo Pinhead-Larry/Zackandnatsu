@@ -6,7 +6,7 @@ index_file = 'index.html'  # Output file
 recent_posts_count = 5  # Number of recent posts to display
 
 # Get a list of Markdown files in the posts directory
-posts = [f for f in os.listdir(posts_directory) if f.endswith('.md')]
+posts = [f for f in os.listdir(posts_directory) if f.endswith('.html')]
 posts_with_dates = []
 
 # Collect post filenames and their modification times
