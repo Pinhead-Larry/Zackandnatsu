@@ -1,7 +1,8 @@
 import os
+from datetime import datetime
 
 # Directory containing the posts
-posts_directory = 'Posts'
+posts_directory = 'Posts'  # Ensure this matches your actual directory name
 index_file = 'index.md'
 recent_posts_count = 5  # Number of recent posts to display
 
@@ -18,72 +19,29 @@ for post in posts:
 # Sort posts by modification time (most recent first)
 sorted_posts = sorted(posts_with_dates, key=lambda x: x[1], reverse=True)
 
-# Prepare the content for index.md with Markdown formatting
-index_content = """\
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Blog</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 20px;
-            background-color: #f9f9f9;
-        }
-        h1 {
-            margin-bottom: 20px;
-        }
-        .post {
-            margin: 20px 0;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background: white;
-        }
-        a {
-            text-decoration: none;
-            color: #007bff;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
-</head>
-<body>
-    <h1>Recent Blog Posts</h1>
-"""
+# Prepare the content for index.md
+index_content = "# Recent Blog Posts\n\n"
 
 for post, _ in sorted_posts[:recent_posts_count]:
     post_path = os.path.join(posts_directory, post)
-
+    
     # Read the content of the post and extract a portion (e.g., first 100 characters)
     with open(post_path, 'r', encoding='utf-8') as f:
         post_content = f.read()
-
+    
     # Generate a snippet
     snippet = post_content[:100] + "..." if len(post_content) > 100 else post_content
-
-    # Format the entry for the index
-    index_content += f"""\
-    <div class="post">
-        <h2><a href="{posts_directory}/{post}">{post[:-3]}</a></h2>
-        <p>{snippet}</p>
-    </div>
-"""
-
-# Close HTML tags
-index_content += """\
-</body>
-</html>
+    
+    # Format the entry for the index with HTML for centering and font styling
+    index_content += f"""
+<div style="text-align: center; font-family: 'Arial', sans-serif; font-size: 18px; margin: 20px 0;">
+    <h2>
+        <a href="{posts_directory}/{post}" style="text-decoration: none; color: #007BFF;">{post}</a>
+    </h2>
+    <p>{snippet}</p>
+</div>
 """
 
 # Write the index content to index.md
 with open(index_file, 'w', encoding='utf-8') as f:
     f.write(index_content)
-
-print(f"Updated {index_file} with the latest posts.")

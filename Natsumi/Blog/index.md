@@ -1,52 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Blog</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 20px;
-            background-color: #f9f9f9;
-        }
-        h1 {
-            margin-bottom: 20px;
-        }
-        .post {
-            margin: 20px 0;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background: white;
-        }
-        a {
-            text-decoration: none;
-            color: #007bff;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
-</head>
-<body>
-    <h1>Recent Blog Posts</h1>
-    <div class="post">
-        <h2><a href="Posts/10-22-2024.md">10-22-2024</a></h2>
-        <p><html lang="en">
+# Recent Blog Posts
+
+
+<div style="text-align: center; font-family: 'Arial', sans-serif; font-size: 18px; margin: 20px 0;">
+    <h2>
+        <a href="Posts/10-22-2024.md" style="text-decoration: none; color: #007BFF;">10-22-2024.md</a>
+    </h2>
+    <p><html lang="en">
 This is an example post for the date of October 22 2024
 </p>
-    </div>
-    <div class="post">
-        <h2><a href="Posts/index.md">index</a></h2>
-        <p>Here you can say lots of fun things about your site.
+</div>
+
+<div style="text-align: center; font-family: 'Arial', sans-serif; font-size: 18px; margin: 20px 0;">
+    <h2>
+        <a href="Posts/index.md" style="text-decoration: none; color: #007BFF;">index.md</a>
+    </h2>
+    <p>Here you can say lots of fun things about your site.
 
 Maybe say a some things about yourself.
 
 Or ma...</p>
-    </div>
-</body>
-</html>
+</div>
