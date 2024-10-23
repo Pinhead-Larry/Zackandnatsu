@@ -56,8 +56,8 @@
 
     <h1>Welcome to Zackary and Natsumi's website</h1>
     <html lang="ja"><h2>ザックと夏海のウェブサイトへようこそ</h2>
-    <html lang="ja"><h3><a href="Natsumi/Blog/index.md" title="夏海のブログはこちらへ">Natsumi's Blog</a></h3>
-
+    <html lang="ja"><h3><a href="Natsumi/Blog/index.md" title="夏海のブログ">夏海のブログはこちらへ</a></h3>
+</body>
     <script>
         const colors = ['#FF5733', '#33FF57', '#3357FF', '#F5FF33', '#FF33A1', '#33FFF5'];
         const numBalls = 50;
@@ -98,6 +98,5 @@
         // Generate more balls every 400 milliseconds
         setInterval(createBall, 400);
     </script>
-
-</body>
+    
 </html>
