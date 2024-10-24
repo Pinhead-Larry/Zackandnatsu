@@ -55,7 +55,7 @@ index_content = """\
     </style>
 </head>
 <body>
-    <h1>Recent Blog Posts</h1>
+    <h1>最近の投稿</h1>
 """
 
 for post, _ in sorted_posts[:recent_posts_count]:
