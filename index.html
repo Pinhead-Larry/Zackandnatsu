@@ -4,13 +4,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zackary and Natsumi's Website</title>
     <style>
-        .top-left-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 150px; /* Adjust size as needed */
-            height: auto; /* Maintain aspect ratio */
-        }
         body {
             margin: 0;
             overflow: hidden;
@@ -23,7 +16,7 @@
             background-color: #f0f8ff;
             position: relative;
         }
-        h1, h2, h3, h4 {
+        h1, h2, h3 {
             text-align: center;
             opacity: 0; /* Initially hidden */
             animation: dropFade 1s forwards; /* Apply animation */
@@ -42,13 +35,14 @@
             margin-top: 1em;
             animation-delay: 1.5s;
         }
-        h4 {
+        .top-left-image {
             position: absolute;
             top: 0;
             left: 0;
             width: 150px; /* Adjust size as needed */
             height: auto; /* Maintain aspect ratio */
-            animation-delay: 2.0s;
+            opacity: 0;
+            animation-delay: 2.0s
         }
         .ball {
             position: absolute;
@@ -69,7 +63,7 @@
 </head>
 <body>
 
-    <h4><img src="Media/photo1.JPG" alt="Zackary and Natsumi" class="top-left-image"></h4>
+    <img src="Media/photo1.JPG" alt="Zackary and Natsumi" class="top-left-image">
     <h1>Welcome to Zackary and Natsumi's website</h1>
     <html lang="ja"><h2>ザックと夏海のウェブサイトへようこそ</h2>
     <html lang="ja"><h3><a href="Natsumi/Blog/index.html" title="夏海のブログ">夏海のブログはこちらへ</a></h3>
