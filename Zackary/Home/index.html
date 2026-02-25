@@ -74,40 +74,76 @@
         </table>
     </div>
 
-    <!-- JavaScript for dynamic post loading -->
     <script>
-        document.querySelectorAll('.post-date').forEach(link => {
-            link.addEventListener('click', async (e) => {
-                e.preventDefault();
-                const postSlug = link.getAttribute('data-post-slug');
-                if (!postSlug) return;
+    // Helper: show list view, hide single post
+    function showList() {
+        document.getElementById('single-post').style.display = 'none';
+        document.getElementById('posts-list').style.display = 'table';
+        document.getElementById('post-content').innerHTML = '';
+    }
 
-                try {
-                    const response = await fetch(`/Zackary/Home/posts/${postSlug}.html`);
-                    if (!response.ok) throw new Error('Post not found');
-                    const html = await response.text();
+    // Helper: load and show a post
+    async function loadPost(slug) {
+        try {
+            const response = await fetch(`/Zackary/Home/posts/${postSlug}.html`);
+            if (!response.ok) throw new Error('Post not found');
+            const html = await response.text();
 
-                    // Hide list, show single post view
-                    document.getElementById('posts-list').style.display = 'none';
-                    const singlePost = document.getElementById('single-post');
-                    singlePost.style.display = 'block';
+            document.getElementById('posts-list').style.display = 'none';
+            const singlePost = document.getElementById('single-post');
+            singlePost.style.display = 'block';
+            document.getElementById('post-content').innerHTML = html;
+        } catch (err) {
+            document.getElementById('post-content').innerHTML = 
+                `<p style="color: red; text-align: center;">Error loading post: ${err.message}</p>`;
+        }
+    }
 
-                    // Inject the fetched post content
-                    document.getElementById('post-content').innerHTML = html;
-                } catch (err) {
-                    document.getElementById('post-content').innerHTML = 
-                        `<p style="color: red; text-align: center;">Error loading post: ${err.message}</p>`;
-                }
-            });
-        });
-
-        // Back button functionality
-        document.getElementById('back-arrow').addEventListener('click', (e) => {
+    // Click handler for date links
+    document.querySelectorAll('.post-date').forEach(link => {
+        link.addEventListener('click', async (e) => {
             e.preventDefault();
-            document.getElementById('single-post').style.display = 'none';
-            document.getElementById('posts-list').style.display = 'table';
-            document.getElementById('post-content').innerHTML = ''; // Clear content
+            const slug = link.getAttribute('data-post-slug');
+            if (!slug) return;
+
+            // Update URL and history (no reload)
+            const newUrl = `?post=${slug}`;  // Simple query param style (clean & works)
+            history.pushState({ slug: slug }, '', newUrl);
+
+            // Load and display the post
+            await loadPost(slug);
         });
-    </script>
+    });
+
+    // Back/forward button handler
+    window.addEventListener('popstate', (event) => {
+        const state = event.state;
+
+        if (state && state.slug) {
+            // Back/forward to a post → reload that post
+            loadPost(state.slug);
+        } else {
+            // Back to initial state (no post) → show list
+            showList();
+        }
+    });
+
+    // Back arrow (manual back to list)
+    document.getElementById('back-arrow').addEventListener('click', (e) => {
+        e.preventDefault();
+        history.back();  // This triggers popstate naturally
+    });
+
+    // On initial page load: check if URL has ?post=... (e.g. direct link or refresh)
+    window.addEventListener('load', () => {
+        const params = new URLSearchParams(window.location.search);
+        const slugFromUrl = params.get('post');
+        if (slugFromUrl) {
+            loadPost(slugFromUrl);
+        } else {
+            showList();
+        }
+    });
+</script>
 </body>
 </html>
