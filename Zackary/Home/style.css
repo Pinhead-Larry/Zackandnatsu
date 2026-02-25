@@ -1,0 +1,146 @@
+html, body {
+    height: 100vh;               /* Full viewport height */
+    margin: 0;
+    padding: 0;
+    overflow: hidden;            /* No page scrolling at all */
+    background-image: url('background.jpg');  /* Use .jpg/.png/.gif – name it whatever you uploaded */
+    background-repeat: no-repeat;
+    background-size: cover;      /* Scales to cover entire screen, no tiling/distortion */
+    background-position: center; /* Centers if aspect doesn't match perfectly */
+    font-family: "Consolas", monospace, sans-serif;
+    color: #ff00ff;
+}
+
+.layout-wrapper {
+    display: flex;               /* Side-by-side with gaps */
+    height: 100vh;
+    gap: 50px;                   /* Visible separation between left/middle/right – adjust this for bigger/smaller gaps */
+    padding: 50px;               /* Gap from browser edges so background shows around everything */
+    box-sizing: border-box;
+}
+
+.side {
+    width: 220px;                /* Fixed width for sides */
+    flex: 0 0 220px;             /* Won't grow/shrink */
+    background-color: rgba(0, 255, 0, 0.7); /* Semi-transparent so bg peeks through – or #00ff00 solid */
+    border: 5px outset #00ffff;
+    padding: 30px 15px;          /* Inner padding → large gap from side "borders" */
+    box-sizing: border-box;
+    vertical-align: top;
+}
+
+.left { background-color: rgba(0, 255, 0, 0.7); }   /* Lime-ish */
+.right { background-color: rgba(255, 0, 0, 0.7); }  /* Red-ish */
+
+.button-table {
+    width: 100%;
+    border: 3px double #0000ff;
+}
+
+.button-table img {
+    width: 120px;
+    height: auto;
+    border: 2px solid #ffff00;
+    margin: 15px auto;
+    display: block;
+}
+
+.middle {
+    flex: 1;                     /* Takes all remaining space */
+    background-color: rgba(0, 0, 255, 0.6); /* Semi-transparent blue */
+    border: 5px outset #ff00ff;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.scrollable {
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 4px inset #ffff00;
+    padding: 15px;
+    background-color: rgba(0, 0, 0, 0.5);
+    
+    /* Zoom-out: lower value = more zoomed out */
+    transform: scale(0.85);             /* Try 0.8–0.9; adjust to taste */
+    transform-origin: top left;         /* Critical: scales from top-left corner */
+    
+    /* Counteract shrinkage so container fills parent properly */
+    width: calc(100% / 0.85);
+    height: calc(100% / 0.85);
+    
+    /* Nudge back into place to compensate for origin shift + padding */
+    margin-left: calc(-15px * (1 - 1/0.85));   /* ≈ -26px for scale 0.85; adjusts left padding "loss" */
+    margin-top: calc(-15px * (1 - 1/0.85));    /* Same for top – prevents downward/rightward drift */
+    
+    box-sizing: border-box;             /* Ensures padding/border included in calcs */
+
+    /*scrollbar-width: thin;          /* Options: auto (default), thin (narrow), none (hide but still scrollable) */
+    /*scrollbar-color: #ff00ff #0000ff;  /* thumb (bar) first, then track (background) */
+}
+
+.scrollable::-webkit-scrollbar {
+    width: 20px;                    /* Thickness of the scrollbar – adjust as needed */
+}
+
+.scrollable::-webkit-scrollbar-track {
+    background: #0000ff;            /* Track background color (the groove/window behind the bar) */
+    border: 2px solid #ffff00;     /* Optional: add a retro yellow border for 90s feel */
+    border-radius: 0;               /* Square corners */
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+    background: #ff9d00;            /* Thumb/bar color – hot pink for your retro vibe */
+    border: 2px solid #ff0000;     /* Cyan border around the thumb for beveled look */
+    border-radius: 0;               /* Makes the thumb perfectly square */
+}
+
+.scrollable::-webkit-scrollbar-thumb:hover {
+    background: #00eaff;            /* Yellow on hover – fun interaction */
+}
+
+/* Optional: hide the up/down arrows/buttons for cleaner retro look */
+.scrollable::-webkit-scrollbar-button {
+    display: none;
+}
+
+.posts-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 20px;      /* Vertical spacing between posts */
+}
+
+.post {
+    height: 300px;               /* Minimum height per post – adjust for "decent size" */
+    padding: 20px;
+    border: 2px dashed #9ed6e6;
+    background-color: #0000ff;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.post img {
+    max-width: 100%;
+    height: auto;
+}
+
+.post-date {
+    color: #ffff00;                /* Starting yellow */
+    font-size: 1.5em;              /* Bigger for heading feel – adjust as needed */
+    text-decoration: none;         /* No underline normally */
+    animation: blink 1s infinite;  /* Your existing blinking */
+    transition: color 0.3s ease;   /* Smooth color change on hover */
+    display: inline;
+}
+
+/* On hover: stop blink + change color */
+.post-date:hover {
+    animation: blink 0.5s infinite;               /* Changes the blinking animation */
+    color: #00ffff;                /* Change to cyan (or pick any color: #ff69b4 hot pink, #00ff00 lime, etc.) */
+    cursor: pointer;               /* Hand icon to show it's clickable */
+    text-shadow: 0 0 10px #00ffff; /* Neon glow */
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
