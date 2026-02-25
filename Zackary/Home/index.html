@@ -85,7 +85,7 @@
     // Helper: load and show a post
     async function loadPost(slug) {
         try {
-            const response = await fetch(`/Zackary/Home/posts/${postSlug}.html`);
+            const response = await fetch(`/Zackary/Home/posts/${slug}.html`);
             if (!response.ok) throw new Error('Post not found');
             const html = await response.text();
 
@@ -145,5 +145,95 @@
         }
     });
 </script>
+
+<!---<script>
+    // Helper: show list view
+    function showList() {
+        document.getElementById('single-post').style.display = 'none';
+        document.getElementById('posts-list').style.display = 'table';
+        document.getElementById('post-content').innerHTML = '';
+        console.log('Showing list view');
+    }
+
+    // Helper: load and show a post
+    async function loadPost(slug) {
+        console.log(`Loading post with slug: ${slug}`);
+        try {
+            const url = `/Zackary/Home/posts/${postSlug}.html`;
+            console.log(`Fetching: ${url}`);
+            const response = await fetch(url);
+            console.log(`Fetch status: ${response.status}`);
+
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status} - ${response.statusText}`);
+            }
+
+            const html = await response.text();
+            console.log(`Fetched content length: ${html.length}`);
+
+            document.getElementById('posts-list').style.display = 'none';
+            document.getElementById('single-post').style.display = 'block';
+            document.getElementById('post-content').innerHTML = html || '<p>(Empty content loaded)</p>';
+            console.log('Post displayed');
+        } catch (err) {
+            console.error('Load error:', err);
+            document.getElementById('posts-list').style.display = 'none'; // Still switch view so user sees feedback
+            document.getElementById('single-post').style.display = 'block';
+            document.getElementById('post-content').innerHTML = 
+                `<p style="color: red; font-weight: bold; text-align: center; padding: 20px;">
+                    Failed to load post "${slug}": ${err.message}<br>
+                    Check console (F12) for details.
+                </p>`;
+        }
+    }
+
+    // Click handler
+    document.querySelectorAll('.post-date').forEach(link => {
+        link.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const slug = link.getAttribute('data-post-slug');
+            console.log('Date clicked - slug:', slug);
+            if (!slug) {
+                console.warn('No data-post-slug attribute found');
+                return;
+            }
+            const newUrl = `?post=${slug}`;
+            history.pushState({ slug }, '', newUrl);
+            await loadPost(slug);
+        });
+    });
+
+    // popstate (back/forward)
+    window.addEventListener('popstate', (event) => {
+        console.log('popstate fired', event.state);
+        const state = event.state || {};
+        if (state.slug) {
+            loadPost(state.slug);
+        } else {
+            showList();
+        }
+    });
+
+    // Manual back arrow
+    document.getElementById('back-arrow').addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log('Back arrow clicked');
+        history.back();
+    });
+
+    // Initial load check
+    window.addEventListener('load', () => {
+        const params = new URLSearchParams(window.location.search);
+        const slug = params.get('post');
+        console.log('Page load - URL slug:', slug);
+        if (slug) {
+            loadPost(slug);
+        } else {
+            showList();
+        }
+    });
+</script> --->
+
+
 </body>
 </html>
