@@ -83,7 +83,7 @@
                 if (!postSlug) return;
 
                 try {
-                    const response = await fetch(`posts/${postSlug}.html`);
+                    const response = await fetch(`/Zackary/Home/posts/${postSlug}.html`);
                     if (!response.ok) throw new Error('Post not found');
                     const html = await response.text();
 
