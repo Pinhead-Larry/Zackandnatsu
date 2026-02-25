@@ -54,7 +54,8 @@
 
                 <!-- Hidden single-post viewer -->
                 <div id="single-post" style="display: none;">
-                    <a href="#" id="back-arrow" style="display: block; text-decoration: none; color: #ffff00; font-size: 1.8em; margin-bottom: 15px;">← Back to Blog</a>
+                    <!-- Back arrow (manual back to main blog list) -->
+                    <a href="#" id="back-arrow" style="display: block; text-decoration: none; color: #ffff00; font-size: 1.8em; margin-bottom: 15px;">← Back to Blog</a>                    
                     <div id="post-content"></div>
                 </div>
             </div>
@@ -129,10 +130,17 @@
     });
 
     // Back arrow (manual back to list)
-    document.getElementById('back-arrow').addEventListener('click', (e) => {
-        e.preventDefault();
-        history.back();  // This triggers popstate naturally
-    });
+document.getElementById('back-arrow').addEventListener('click', (e) => {
+    e.preventDefault();
+    
+    // Clear history state and URL
+    history.replaceState(null, '', '/Zackary/Home/');  // or '/Zackary/Home/index.html'
+    
+    // Reset UI to list view
+    document.getElementById('single-post').style.display = 'none';
+    document.getElementById('posts-list').style.display = 'table';
+    document.getElementById('post-content').innerHTML = '';
+});
 
     // On initial page load: check if URL has ?post=... (e.g. direct link or refresh)
     window.addEventListener('load', () => {
@@ -145,95 +153,6 @@
         }
     });
 </script>
-
-<!---<script>
-    // Helper: show list view
-    function showList() {
-        document.getElementById('single-post').style.display = 'none';
-        document.getElementById('posts-list').style.display = 'table';
-        document.getElementById('post-content').innerHTML = '';
-        console.log('Showing list view');
-    }
-
-    // Helper: load and show a post
-    async function loadPost(slug) {
-        console.log(`Loading post with slug: ${slug}`);
-        try {
-            const url = `/Zackary/Home/posts/${postSlug}.html`;
-            console.log(`Fetching: ${url}`);
-            const response = await fetch(url);
-            console.log(`Fetch status: ${response.status}`);
-
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status} - ${response.statusText}`);
-            }
-
-            const html = await response.text();
-            console.log(`Fetched content length: ${html.length}`);
-
-            document.getElementById('posts-list').style.display = 'none';
-            document.getElementById('single-post').style.display = 'block';
-            document.getElementById('post-content').innerHTML = html || '<p>(Empty content loaded)</p>';
-            console.log('Post displayed');
-        } catch (err) {
-            console.error('Load error:', err);
-            document.getElementById('posts-list').style.display = 'none'; // Still switch view so user sees feedback
-            document.getElementById('single-post').style.display = 'block';
-            document.getElementById('post-content').innerHTML = 
-                `<p style="color: red; font-weight: bold; text-align: center; padding: 20px;">
-                    Failed to load post "${slug}": ${err.message}<br>
-                    Check console (F12) for details.
-                </p>`;
-        }
-    }
-
-    // Click handler
-    document.querySelectorAll('.post-date').forEach(link => {
-        link.addEventListener('click', async (e) => {
-            e.preventDefault();
-            const slug = link.getAttribute('data-post-slug');
-            console.log('Date clicked - slug:', slug);
-            if (!slug) {
-                console.warn('No data-post-slug attribute found');
-                return;
-            }
-            const newUrl = `?post=${slug}`;
-            history.pushState({ slug }, '', newUrl);
-            await loadPost(slug);
-        });
-    });
-
-    // popstate (back/forward)
-    window.addEventListener('popstate', (event) => {
-        console.log('popstate fired', event.state);
-        const state = event.state || {};
-        if (state.slug) {
-            loadPost(state.slug);
-        } else {
-            showList();
-        }
-    });
-
-    // Manual back arrow
-    document.getElementById('back-arrow').addEventListener('click', (e) => {
-        e.preventDefault();
-        console.log('Back arrow clicked');
-        history.back();
-    });
-
-    // Initial load check
-    window.addEventListener('load', () => {
-        const params = new URLSearchParams(window.location.search);
-        const slug = params.get('post');
-        console.log('Page load - URL slug:', slug);
-        if (slug) {
-            loadPost(slug);
-        } else {
-            showList();
-        }
-    });
-</script> --->
-
 
 </body>
 </html>
