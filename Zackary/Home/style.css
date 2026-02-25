@@ -151,3 +151,11 @@ html, body {
     text-shadow: 0 0 10px #00ffff;
     animation: none;
 }
+
+.post img {
+    max-width: 60%;          /* Never wider than the parent cell */
+    height: auto;             /* Keeps aspect ratio */
+    display: block;           /* Removes unwanted bottom gap */
+    margin: 10px auto;        /* Centers + adds breathing room */
+    object-fit: contain;      /* Ensures the whole image is visible without cropping */
+}
