@@ -74,9 +74,6 @@ html, body {
     margin-top: calc(-15px * (1 - 1/0.85));    /* Same for top – prevents downward/rightward drift */
     
     box-sizing: border-box;             /* Ensures padding/border included in calcs */
-
-    /*scrollbar-width: thin;          /* Options: auto (default), thin (narrow), none (hide but still scrollable) */
-    /*scrollbar-color: #ff00ff #0000ff;  /* thumb (bar) first, then track (background) */
 }
 
 .scrollable::-webkit-scrollbar {
@@ -143,4 +140,14 @@ html, body {
 
 @keyframes blink {
     50% { opacity: 0; }
+}
+
+#single-post {
+    text-align: left;  /* Or center if preferred */
+}
+
+#back-arrow:hover {
+    color: #00ffff;
+    text-shadow: 0 0 10px #00ffff;
+    animation: none;
 }

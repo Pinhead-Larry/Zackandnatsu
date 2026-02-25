@@ -22,13 +22,14 @@
             </tr>
         </table>
 
-        <!-- Middle: Scrollable posts table -->
+        <!-- Middle: Scrollable area with posts list or single post -->
         <div class="middle">
             <div class="scrollable">
-                <table class="posts-table">
+                <!-- Main posts list (teaser view) -->
+                <table class="posts-table" id="posts-list">
                     <tr>
                         <td class="post">
-                            <a href="/posts/2026-02-24.html" class="post-date"> ---> 2/24/2026 <--- </a>
+                            <a href="#" class="post-date" data-post-slug="2026-02-24"> ---> 2/24/2026 <--- </a>
                             <p>Right now my current obsession is ELIN! This game has got me completely addicted!</p>
                             <p>Snowman in Summer! Hell Yeah!</p>
                             <img src="Screenshot 2026-02-24.jpg" alt="Post Image 1">
@@ -50,6 +51,12 @@
                     </tr>
                     <!-- Add more <tr> rows for additional posts -->
                 </table>
+
+                <!-- Hidden single-post viewer -->
+                <div id="single-post" style="display: none;">
+                    <a href="#" id="back-arrow" style="display: block; text-decoration: none; color: #ffff00; font-size: 1.8em; margin-bottom: 15px;">← Back to Blog</a>
+                    <div id="post-content"></div>
+                </div>
             </div>
         </div>
 
@@ -66,5 +73,41 @@
             </tr>
         </table>
     </div>
+
+    <!-- JavaScript for dynamic post loading -->
+    <script>
+        document.querySelectorAll('.post-date').forEach(link => {
+            link.addEventListener('click', async (e) => {
+                e.preventDefault();
+                const postSlug = link.getAttribute('data-post-slug');
+                if (!postSlug) return;
+
+                try {
+                    const response = await fetch(`posts/${postSlug}.html`);
+                    if (!response.ok) throw new Error('Post not found');
+                    const html = await response.text();
+
+                    // Hide list, show single post view
+                    document.getElementById('posts-list').style.display = 'none';
+                    const singlePost = document.getElementById('single-post');
+                    singlePost.style.display = 'block';
+
+                    // Inject the fetched post content
+                    document.getElementById('post-content').innerHTML = html;
+                } catch (err) {
+                    document.getElementById('post-content').innerHTML = 
+                        `<p style="color: red; text-align: center;">Error loading post: ${err.message}</p>`;
+                }
+            });
+        });
+
+        // Back button functionality
+        document.getElementById('back-arrow').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('single-post').style.display = 'none';
+            document.getElementById('posts-list').style.display = 'table';
+            document.getElementById('post-content').innerHTML = ''; // Clear content
+        });
+    </script>
 </body>
 </html>
